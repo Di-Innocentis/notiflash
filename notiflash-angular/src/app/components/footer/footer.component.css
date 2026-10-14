@@ -1,0 +1,72 @@
+footer {
+  background: var(--azul-oscuro);
+  color: #fff;
+  padding: 30px 16px 45px;
+  position: relative;
+  min-height: 120px;
+  margin-top: auto;
+}
+
+footer h5 {
+  font-size: 13px;
+  color: var(--dorado);
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+footer .marca {
+  font-size: 18px;
+  font-weight: 700;
+  margin-top: 2px;
+}
+
+footer p,
+footer li {
+  font-size: 12px;
+  color: #dbe4f0;
+  list-style: none;
+  line-height: 1.5;
+  margin-bottom: 4px;
+}
+
+footer .eslogan {
+  margin-top: 6px;
+  font-size: 12px;
+}
+
+.redes {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.redes a {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #2c4c78;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  transition: background 0.2s;
+}
+
+.redes a:hover {
+  background: #3a629b;
+}
+
+.redes svg {
+  width: 14px;
+  height: 14px;
+}
+
+.copy {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 10px;
+  text-align: center;
+  font-size: 11px;
+  color: #8fa3bf;
+}

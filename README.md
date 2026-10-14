@@ -1,115 +1,177 @@
 # NotiFlash | Noticias al instante
 
-Prototipo funcional de un portal de noticias desarrollado con HTML, CSS y JavaScript.
-Proyecto académico de Front End (Entrega 2 – Semana 5).
+Portal de noticias interactivo desarrollado para la asignatura de Front End (Politécnico Grancolombiano).
 
-**Demo en línea:** https://laurasofiachitiva1-ops.github.io/notiflash
-**Repositorio:** https://github.com/laurasofiachitiva1-ops/notiflash
+- **Demo en línea (HTML/JS):** https://laurasofiachitiva1-ops.github.io/notiflash
+- **Repositorio:** https://github.com/laurasofiachitiva1-ops/notiflash
 
-## Autores
+---
 
-- Nombre: Laura Sofía Chitiva Lopez, María Isabel Valencia Arboleda, Vittorio Gomez Di Innocentis, Yully Alexandra Calderón Navarro
-- Curso: Front End
-- Profesor: John Olarte Ramos
+## Integrantes
 
-## Tecnologías
+- Laura Sofía Chitiva Lopez
+- María Isabel Valencia Arboleda
+- Vittorio Gomez Di Innocentis
+- Yully Alexandra Calderón Navarro
 
-- HTML5
-- CSS3 (variables CSS, flexbox, diseño responsive)
-- JavaScript (vanilla)
-- [Bootstrap 5.3](https://getbootstrap.com/) mediante CDN (requiere conexión a internet)
+**Docente:** John Olarte Ramos  
+**Curso:** Front End (Semana 7 - Entrega final)
 
-## Páginas
+---
 
-| Página | Archivo | Descripción |
+## Entregas del proyecto
+
+### Entrega 1 y 2 (Semana 3 y 5): Prototipo Web y JavaScript Vanilla
+- Estructura semántica con HTML5 y diseño responsive mediante CSS3 y Bootstrap 5.
+- Navegación entre páginas: Inicio, Noticias, Detalle, Favoritos, Gestionar y Contacto.
+- Renderizado dinámico de noticias a partir de `noticias.json` mediante `fetch`.
+- Gestión de favoritos y mini CRUD persistido en `localStorage`.
+- Validaciones en tiempo real para el formulario de contacto y creación de noticias.
+
+### Entrega 3 (Semana 7 - Entrega final): Implementación en Angular
+Implementación de la aplicación Single Page Application (SPA) en Angular (`notiflash-angular/`), estructurada en componentes modulares, servicios reactivos y los cuatro tipos fundamentales de data binding.
+
+---
+
+## Tecnologías utilizadas
+
+- **HTML5** & **CSS3** (Variables CSS, Flexbox, Grid y diseño adaptativo)
+- **JavaScript (ES6+)**
+- **Bootstrap 5.3**
+- **Angular 18** (TypeScript, Componentes Standalone, Enrutamiento SPA, Servicios y RxJS)
+
+---
+
+## Implementación en Angular (`notiflash-angular`)
+
+### Componentes desarrollados
+
+| Componente | Ubicación | Responsabilidad |
 |---|---|---|
-| Inicio | `index.html` | Slider principal, noticias destacadas y opiniones de lectores |
-| Noticias | `noticias.html` | Listado completo con filtros por categoría, búsqueda y orden |
-| Detalle | `detalle.html` | Contenido completo de una noticia y noticias relacionadas |
-| Favoritos | `favoritos.html` | Noticias guardadas por el usuario |
-| Gestionar | `gestionar.html` | Crear y eliminar noticias (mini CRUD) |
-| Contacto | `contacto.html` | Formulario de contacto con validaciones |
+| `HeaderComponent` | `src/app/components/header/` | Barra superior con logo, enlaces de enrutamiento con `routerLink`, badge dinámico de favoritos y buscador global. |
+| `FooterComponent` | `src/app/components/footer/` | Pie de página con secciones, enlaces de contacto, redes sociales e interpolación del año actual. |
+| `InicioComponent` | `src/app/components/inicio/` | Pantalla de inicio con carrusel interactivo, noticias destacadas y grilla de artículos recientes. |
+| `NoticiasComponent` | `src/app/components/noticias/` | Catálogo completo con buscador en tiempo real, filtro por categorías (Educación, Tecnología, Turismo, Comercial) y ordenación. |
+| `DetalleComponent` | `src/app/components/detalle/` | Vista de artículo individual que obtiene el parámetro de ruta `id` mediante `ActivatedRoute` y lista noticias recomendadas. |
+| `FavoritosComponent` | `src/app/components/favoritos/` | Listado de noticias guardadas por el usuario, con opción de eliminar individuales o vaciar la colección. |
+| `GestionarComponent` | `src/app/components/gestionar/` | Panel administrativo CRUD (crear, editar, listar y eliminar noticias) con vista previa en tiempo real. |
+| `ContactoComponent` | `src/app/components/contacto/` | Formulario de contacto con validación de campos, aceptación de términos y mensaje de confirmación. |
 
-## Funcionalidades de la Entrega 2
+### Servicios y modelos
 
-- [x] Estructura HTML y CSS de todas las páginas, con diseño responsive
-- [x] Estilos compartidos en un solo archivo (`css/styles.css`)
-- [x] Filtros de categoría en el listado de noticias
-- [x] Renderizado dinámico de las noticias desde `noticias.json`
-- [x] Funcionalidad de favoritos (guardada en `localStorage`)
-- [x] Formularios con validaciones (contacto y gestionar)
-- [x] Crear y eliminar noticias
+- **`Noticia` (`src/app/models/noticia.model.ts`)**: Interfaz de tipado con los campos requeridos (`id`, `titulo`, `categoria`, `imagen`, `resumen`, `contenido`, `autor`, `fecha`, `destacada`).
+- **`NoticiasService` (`src/app/services/noticias.service.ts`)**: Servicio `Injectable` centralizado que administra el estado de las noticias y favoritos a través de `BehaviorSubject`, cargando datos desde `noticias.json` y sincronizándolos en `localStorage`.
 
-## Estructura del proyecto
+---
+
+## Evidencia de los 4 tipos de Data Binding
+
+1. **Interpolación (`{{ }}`)**:
+   - Títulos, descripciones, categorías, fechas y autores en las tarjetas de noticias.
+   - Cantidad de noticias encontradas en el catálogo: `{{ noticiasFiltradas.length }}`.
+   - Conteo de noticias guardadas en el badge del menú: `{{ cantidadFavoritos }}`.
+   - Año dinámico en el footer: `© {{ anioActual }} NotiFlash`.
+
+2. **Property Binding (`[ ]`)**:
+   - Enlace a rutas dinámicas: `[routerLink]="['/noticia', item.id]"`.
+   - Carga dinámica de imágenes y textos alternativos: `[src]="noticia.imagen"` y `[alt]="noticia.titulo"`.
+   - Clases CSS condicionales para estados activos: `[class.activo]="esFavorito(item.id)"`, `[class.error]="tituloInput.invalid"`.
+   - Control de habilitación del botón de guardar: `[disabled]="!esValido()"`.
+
+3. **Event Binding (`( )`)**:
+   - Alternar favoritos desde cualquier tarjeta o vista de detalle: `(click)="toggleFavorito(item.id)"`.
+   - Controles de navegación del carrusel: `(click)="siguienteSlide()"` y `(click)="anteriorSlide()"`.
+   - Filtrado interactivo por categorías: `(click)="seleccionarCategoria(cat)"`.
+   - Envío de formularios: `(ngSubmit)="guardar()"` en gestión y `(ngSubmit)="enviar()"` en contacto.
+   - Acciones de edición y eliminación: `(click)="iniciarEdicion(n)"` y `(click)="eliminar(n.id)"`.
+
+4. **Two-way Data Binding (`[( )]`)**:
+   - Buscador global y del catálogo con `[(ngModel)]="terminoBusqueda"`.
+   - Filtro de categoría con selector desplegable `[(ngModel)]="categoriaSeleccionada"`.
+   - Formulario de contacto completo: `[(ngModel)]="datos.nombre"`, `[(ngModel)]="datos.correo"`, `[(ngModel)]="datos.mensaje"`.
+   - Formulario CRUD de noticias: `[(ngModel)]="formulario.titulo"`, `[(ngModel)]="formulario.resumen"`, `[(ngModel)]="formulario.destacada"`, actualizando la vista previa en vivo inmediatamente.
+
+---
+
+## Estructura del repositorio
 
 ```
 notiflash/
-├── index.html           # Página principal con noticias destacadas dinámicas
-├── noticias.html        # Listado con filtros, búsqueda, ordenación y favoritos
-├── detalle.html         # Vista detallada de la noticia y artículos relacionados
-├── favoritos.html       # Noticias guardadas en localStorage
-├── gestionar.html       # Mini CRUD para crear y eliminar noticias
-├── contacto.html        # Formulario de contacto con validaciones
-├── noticias.json        # Datos iniciales de las noticias
-├── css/
-│   ├── styles.css       # Estilos comunes: variables, botones, header y footer
-│   └── <pagina>.css     # Estilos propios de cada página
-├── js/
-│   ├── app.js           # Capa de datos compartida, localStorage y utilidades
-│   ├── inicio.js        # Lógica de noticias destacadas en el inicio
-│   ├── noticias.js      # Filtrado dinámico, búsqueda, orden y favoritos
-│   ├── detalle.js       # Renderizado del artículo y noticias relacionadas
-│   ├── favoritos.js     # Gestión y renderizado de noticias guardadas
-│   ├── gestionar.js     # Mini CRUD: crear con validación y eliminar con confirmación
-│   └── contacto.js      # Validaciones y feedback del formulario de contacto
-└── README.md
+├── index.html                   # Portal web Entrega 1 y 2 (GitHub Pages)
+├── noticias.html                # Catálogo web
+├── detalle.html                 # Detalle de noticia web
+├── favoritos.html               # Favoritos web
+├── gestionar.html               # Gestión web
+├── contacto.html                # Contacto web
+├── noticias.json                # Datos iniciales compartidos
+├── css/                         # Estilos del portal HTML/CSS
+├── js/                          # Lógica JavaScript vanilla
+├── img/                         # Gráficos e ilustraciones SVG
+└── notiflash-angular/           # Aplicación Angular (Entrega 3)
+    ├── src/
+    │   ├── app/
+    │   │   ├── components/
+    │   │   │   ├── header/      # Header con menú y buscador
+    │   │   │   ├── footer/      # Footer con año dinámico
+    │   │   │   ├── inicio/      # Carrusel y destacados
+    │   │   │   ├── noticias/    # Catálogo con filtros reactivos
+    │   │   │   ├── detalle/     # Vista individual de noticia
+    │   │   │   ├── favoritos/   # Noticias guardadas
+    │   │   │   ├── gestionar/   # CRUD completo con vista previa
+    │   │   │   └── contacto/    # Formulario validado
+    │   │   ├── models/          # Interfaz Noticia
+    │   │   ├── services/        # NoticiasService con RxJS
+    │   │   ├── app.component.*  # Componente raíz
+    │   │   ├── app.config.ts    # Configuración de proveedores (Router, HttpClient)
+    │   │   └── app.routes.ts    # Rutas SPA
+    │   ├── index.html
+    │   ├── main.ts
+    │   └── styles.css           # Estilos base
+    ├── angular.json
+    └── package.json
 ```
 
-## Cómo ejecutarlo
+---
 
-Al cargar datos desde `noticias.json` con `fetch`, el navegador requiere ejecutarse sobre un servidor web local (o en línea):
+## Cómo ejecutar el proyecto
 
-**Opción A: con Python (sin instalar nada adicional)**
-Abre una terminal en la carpeta del proyecto y ejecuta:
+### 1. Ejecutar el portal web vanilla (Entregas 1 y 2)
+
+Puedes abrir `index.html` con un servidor local:
+
 ```bash
+# Con Python
 python -m http.server 8000
-```
-Luego abre en tu navegador: [http://localhost:8000](http://localhost:8000)
 
-**Opción B: con Live Server en VS Code**
-1. Abre la carpeta del proyecto en Visual Studio Code.
-2. Instala la extensión **Live Server**.
-3. Clic derecho sobre `index.html` y selecciona **Open with Live Server**.
-
-**Opción C: con Node.js / npx**
-```bash
+# O con npx
 npx serve .
 ```
 
-**Opción D: en línea**
-Abre el enlace de la demo desplegada en GitHub Pages:
+O visitar la versión en línea en GitHub Pages:  
 https://laurasofiachitiva1-ops.github.io/notiflash
 
-## Estructura de los datos
+### 2. Ejecutar la aplicación en Angular (Entrega 3)
 
-Cada noticia en `noticias.json` tiene esta forma:
+1. Ingresar a la carpeta de Angular:
+   ```bash
+   cd notiflash-angular
+   ```
 
-```json
-{
-  "id": 1,
-  "titulo": "Título de la noticia",
-  "categoria": "Educación",
-  "imagen": "",
-  "resumen": "Breve resumen",
-  "contenido": "Texto completo",
-  "autor": "Redacción NotiFlash",
-  "fecha": "2026-09-12",
-  "destacada": true
-}
-```
+2. Instalar las dependencias (si es la primera vez):
+   ```bash
+   npm install
+   ```
 
-Categorías disponibles: Educación, Tecnología, Turismo y Comercial.
+3. Iniciar el servidor de desarrollo:
+   ```bash
+   npm start
+   ```
+
+4. Abrir en el navegador:
+   [http://localhost:4200](http://localhost:4200)
+
+---
 
 ## Licencia
 
-Proyecto con fines académicos.
+Proyecto con fines académicos para el Politécnico Grancolombiano.

@@ -1,0 +1,136 @@
+<section class="container py-4">
+  <div class="encabezado-contacto mb-4">
+    <h1>Contáctanos</h1>
+    <p>Escríbenos y te responderemos lo antes posible.</p>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-12 col-lg-8">
+      <div class="card-contacto">
+        <form (ngSubmit)="enviar()">
+          <div class="mb-3">
+            <label class="form-label" for="nombre">Nombre completo *</label>
+            <input
+              type="text"
+              id="nombre"
+              name="nombre"
+              class="form-control-nf"
+              placeholder="Escribe tu nombre"
+              [(ngModel)]="datos.nombre"
+              [class.error]="formularioIntentado && datos.nombre.trim().length < 3"
+            >
+            <span *ngIf="formularioIntentado && datos.nombre.trim().length < 3" class="msg-error">
+              El nombre es obligatorio (mínimo 3 caracteres).
+            </span>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label" for="correo">Correo electrónico *</label>
+            <input
+              type="email"
+              id="correo"
+              name="correo"
+              class="form-control-nf"
+              placeholder="ejemplo@correo.com"
+              [(ngModel)]="datos.correo"
+              [class.error]="formularioIntentado && !validarCorreo(datos.correo)"
+            >
+            <span *ngIf="formularioIntentado && !validarCorreo(datos.correo)" class="msg-error">
+              Ingresa un correo electrónico válido.
+            </span>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label" for="asunto">Asunto *</label>
+            <input
+              type="text"
+              id="asunto"
+              name="asunto"
+              class="form-control-nf"
+              placeholder="Motivo del mensaje"
+              [(ngModel)]="datos.asunto"
+              [class.error]="formularioIntentado && datos.asunto.trim().length < 3"
+            >
+            <span *ngIf="formularioIntentado && datos.asunto.trim().length < 3" class="msg-error">
+              El asunto es obligatorio (mínimo 3 caracteres).
+            </span>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label" for="mensaje">Mensaje *</label>
+            <textarea
+              id="mensaje"
+              name="mensaje"
+              rows="5"
+              class="form-control-nf"
+              placeholder="Cuéntanos aquí tu solicitud (mínimo 10 caracteres)"
+              [(ngModel)]="datos.mensaje"
+              [class.error]="formularioIntentado && datos.mensaje.trim().length < 10"
+            ></textarea>
+            <span *ngIf="formularioIntentado && datos.mensaje.trim().length < 10" class="msg-error">
+              El mensaje debe tener al menos 10 caracteres.
+            </span>
+          </div>
+
+          <div class="form-check mb-4">
+            <input
+              type="checkbox"
+              id="aceptaTerminos"
+              name="aceptaTerminos"
+              class="form-check-input"
+              [(ngModel)]="datos.aceptaTerminos"
+              [class.is-invalid]="formularioIntentado && !datos.aceptaTerminos"
+            >
+            <label class="form-check-label" for="aceptaTerminos">
+              Acepto el tratamiento de mis datos personales
+            </label>
+            <span *ngIf="formularioIntentado && !datos.aceptaTerminos" class="msg-error">
+              Debes aceptar los términos para continuar.
+            </span>
+          </div>
+
+          <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-nf">
+              Enviar mensaje
+            </button>
+            <button type="button" class="btn btn-nf btn-nf-gris" (click)="limpiar()">
+              Limpiar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="col-12 col-lg-4">
+      <div *ngIf="mensajeEnviado" class="exito-alerta mb-4">
+        <div class="d-flex justify-content-between align-items-start">
+          <strong>Mensaje enviado correctamente</strong>
+          <button type="button" class="btn-close-custom" (click)="cerrarExito()">✕</button>
+        </div>
+        <p>Gracias por escribirnos, pronto te responderemos.</p>
+      </div>
+
+      <div class="card-info mb-4">
+        <h3>Otros canales</h3>
+        <p><strong>Correo:</strong> contacto&#64;notiflash.co</p>
+        <p><strong>Teléfono:</strong> 601 000 0000</p>
+        <p><strong>Dirección:</strong> Bogotá, Colombia</p>
+        <p><strong>Horario:</strong> Lunes a viernes de 8:00 a.m. a 5:00 p.m.</p>
+      </div>
+
+      <div class="card-mapa">
+        <h4>Ubicación</h4>
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d127244.49889420063!2d-74.15318182928509!3d4.648283713023157!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f9bfd2da6cb29%3A0x239d635520a33914!2zQm9nb3TDoQ!5e0!3m2!1ses!2sco!4v1700000000000!5m2!1ses!2sco"
+          width="100%"
+          height="180"
+          style="border:0; border-radius: 8px;"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="Mapa de Bogotá"
+        ></iframe>
+      </div>
+    </div>
+  </div>
+</section>

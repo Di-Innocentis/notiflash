@@ -1,0 +1,117 @@
+<section class="container py-4">
+  <div class="encabezado-catalogo mb-4">
+    <h1>Catálogo de Noticias</h1>
+    <p>Explora todos los artículos de NotiFlash o filtra por tu categoría favorita.</p>
+  </div>
+
+  <div class="panel-filtros mb-4">
+    <div class="row g-3 align-items-center">
+      <div class="col-12 col-md-5">
+        <div class="input-grupo">
+          <input
+            type="text"
+            class="form-control-nf"
+            placeholder="Buscar por título, contenido o autor..."
+            [(ngModel)]="terminoBusqueda"
+            (input)="aplicarFiltros()"
+          >
+        </div>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <select
+          class="form-control-nf"
+          [(ngModel)]="categoriaSeleccionada"
+          (change)="aplicarFiltros()"
+        >
+          <option *ngFor="let cat of categorias" [value]="cat">
+            {{ cat === 'Todas' ? 'Todas las categorías' : cat }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-12 col-md-3">
+        <select
+          class="form-control-nf"
+          [(ngModel)]="orden"
+          (change)="aplicarFiltros()"
+        >
+          <option value="recientes">Más recientes primero</option>
+          <option value="antiguas">Más antiguas primero</option>
+          <option value="titulo">Por título (A - Z)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="categorias-pills mt-3">
+      <button
+        *ngFor="let cat of categorias"
+        type="button"
+        class="btn-pill"
+        [class.activo]="categoriaSeleccionada === cat"
+        (click)="seleccionarCategoria(cat)"
+      >
+        {{ cat }}
+      </button>
+
+      <button
+        *ngIf="categoriaSeleccionada !== 'Todas' || terminoBusqueda"
+        type="button"
+        class="btn-pill btn-pill-reset"
+        (click)="limpiarFiltros()"
+      >
+        Limpiar filtros ✕
+      </button>
+    </div>
+  </div>
+
+  <div class="resumen-resultados mb-3 d-flex justify-content-between align-items-center">
+    <span class="total-text">
+      Mostrando <strong>{{ noticiasFiltradas.length }}</strong> de <strong>{{ noticias.length }}</strong> noticias
+    </span>
+  </div>
+
+  <div *ngIf="noticiasFiltradas.length > 0; else sinResultados" class="row g-4">
+    <div *ngFor="let item of noticiasFiltradas" class="col-12 col-md-6 col-lg-4">
+      <article class="tarjeta-noticia">
+        <div class="img-wrapper">
+          <img [src]="item.imagen" [alt]="item.titulo">
+          <span class="categoria-badge">{{ item.categoria }}</span>
+        </div>
+        <div class="contenido-tarjeta">
+          <span class="fecha-noticia">{{ item.fecha }} · {{ item.autor }}</span>
+          <h3 class="titulo-card">
+            <a [routerLink]="['/noticia', item.id]">{{ item.titulo }}</a>
+          </h3>
+          <p class="resumen-card">{{ item.resumen }}</p>
+          <div class="card-footer-custom">
+            <a [routerLink]="['/noticia', item.id]" class="leer-mas">Leer noticia completa →</a>
+            <button
+              type="button"
+              class="btn-favorito"
+              [class.activo]="esFavorito(item.id)"
+              (click)="toggleFavorito(item.id)"
+              [attr.aria-label]="esFavorito(item.id) ? 'Quitar de favoritos' : 'Guardar en favoritos'"
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+
+  <ng-template #sinResultados>
+    <div class="mensaje-vacio text-center py-5">
+      <svg class="icono-vacio" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="11" cy="11" r="8"/>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <h3>No se encontraron noticias</h3>
+      <p>Intenta con otros términos de búsqueda o cambia la categoría seleccionada.</p>
+      <button type="button" class="btn btn-nf" (click)="limpiarFiltros()">Restablecer filtros</button>
+    </div>
+  </ng-template>
+</section>

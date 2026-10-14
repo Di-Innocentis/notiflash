@@ -1,0 +1,58 @@
+<section class="container py-4">
+  <div class="encabezado-favoritos d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h1>Mis Noticias Favoritas</h1>
+      <p>Artículos que guardaste para leer después.</p>
+    </div>
+    <button
+      *ngIf="noticiasFavoritas.length > 0"
+      type="button"
+      class="btn btn-nf btn-nf-borde-rojo"
+      (click)="vaciarFavoritos()"
+    >
+      Vaciar favoritos
+    </button>
+  </div>
+
+  <div *ngIf="cargando" class="text-center py-5">
+    <p>Cargando favoritos...</p>
+  </div>
+
+  <div *ngIf="!cargando && noticiasFavoritas.length > 0" class="row g-4">
+    <div *ngFor="let item of noticiasFavoritas" class="col-12 col-md-6 col-lg-4">
+      <article class="tarjeta-noticia">
+        <div class="img-wrapper">
+          <img [src]="item.imagen" [alt]="item.titulo">
+          <span class="categoria-badge">{{ item.categoria }}</span>
+        </div>
+        <div class="contenido-tarjeta">
+          <span class="fecha-noticia">{{ item.fecha }}</span>
+          <h3 class="titulo-card">
+            <a [routerLink]="['/noticia', item.id]">{{ item.titulo }}</a>
+          </h3>
+          <p class="resumen-card">{{ item.resumen }}</p>
+          <div class="card-footer-custom">
+            <a [routerLink]="['/noticia', item.id]" class="leer-mas">Leer noticia completa →</a>
+            <button
+              type="button"
+              class="btn-quitar"
+              (click)="quitarFavorito(item.id)"
+              title="Quitar de favoritos"
+            >
+              Quitar
+            </button>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+
+  <div *ngIf="!cargando && noticiasFavoritas.length === 0" class="mensaje-vacio text-center py-5">
+    <svg class="icono-vacio" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+    </svg>
+    <h3>Aún no tienes noticias favoritas</h3>
+    <p>Guarda artículos desde el inicio o el catálogo haciendo clic en el icono del marcador.</p>
+    <a routerLink="/noticias" class="btn btn-nf mt-2">Explorar noticias</a>
+  </div>
+</section>

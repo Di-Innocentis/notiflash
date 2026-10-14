@@ -1,0 +1,79 @@
+<div class="container py-4">
+  <div *ngIf="cargando" class="text-center py-5">
+    <p>Cargando información del artículo...</p>
+  </div>
+
+  <div *ngIf="!cargando && noticia" class="row g-4">
+    <div class="col-12 col-lg-8">
+      <article class="articulo-principal">
+        <div class="migas mb-3">
+          <a routerLink="/inicio">Inicio</a> &gt;
+          <a routerLink="/noticias">Noticias</a> &gt;
+          <a [routerLink]="['/noticias']" [queryParams]="{cat: noticia.categoria}">{{ noticia.categoria }}</a>
+        </div>
+
+        <span class="categoria-badge mb-2">{{ noticia.categoria }}</span>
+        <h1 class="articulo-titulo">{{ noticia.titulo }}</h1>
+
+        <div class="meta-info mb-3">
+          <span>Por <strong>{{ noticia.autor }}</strong></span>
+          <span class="separador">·</span>
+          <span>Publicado el {{ noticia.fecha }}</span>
+        </div>
+
+        <div class="imagen-principal mb-4">
+          <img [src]="noticia.imagen" [alt]="noticia.titulo">
+        </div>
+
+        <div class="acciones-articulo mb-4">
+          <button
+            type="button"
+            class="btn-accion-fav"
+            [class.activo]="esFavorito"
+            (click)="toggleFavorito()"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+            </svg>
+            <span>{{ esFavorito ? 'Guardado en favoritos' : 'Guardar en favoritos' }}</span>
+          </button>
+        </div>
+
+        <div class="resumen-destacado mb-4">
+          {{ noticia.resumen }}
+        </div>
+
+        <div class="cuerpo-articulo">
+          <p *ngFor="let parrafo of parrafos">{{ parrafo }}</p>
+        </div>
+
+        <div class="volver-catalogo mt-4 pt-3 border-top">
+          <a routerLink="/noticias" class="btn btn-nf btn-nf-borde">← Volver al catálogo de noticias</a>
+        </div>
+      </article>
+    </div>
+
+    <aside class="col-12 col-lg-4">
+      <div class="card-lateral">
+        <h4 class="lateral-titulo">Noticias recomendadas</h4>
+        <div class="relacionadas-lista">
+          <div *ngFor="let item of noticiasRelacionadas" class="item-relacionado">
+            <img [src]="item.imagen" [alt]="item.titulo" class="img-miniatura">
+            <div class="info-miniatura">
+              <span class="fecha-mini">{{ item.fecha }}</span>
+              <h5>
+                <a [routerLink]="['/noticia', item.id]">{{ item.titulo }}</a>
+              </h5>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <div *ngIf="!cargando && !noticia" class="articulo-no-encontrado text-center py-5">
+    <h2>Noticia no encontrada</h2>
+    <p>El artículo solicitado no existe o fue eliminado.</p>
+    <a routerLink="/noticias" class="btn btn-nf mt-3">Ir al listado de noticias</a>
+  </div>
+</div>

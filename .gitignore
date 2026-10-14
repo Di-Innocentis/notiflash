@@ -1,0 +1,11 @@
+# Dependencias y compilación
+node_modules/
+dist/
+.angular/
+.vscode/
+
+# Logs y temporales
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log

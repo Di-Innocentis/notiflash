@@ -1,0 +1,93 @@
+<section class="hero">
+  <div class="container">
+    <div class="row align-items-center g-4">
+      <div class="col-md-6">
+        <h1>Entérate de lo que pasa hoy</h1>
+        <p class="texto">
+          NotiFlash te mantiene al día con los acontecimientos más importantes en educación, tecnología, turismo y comercio.
+        </p>
+        <div class="botones">
+          <a routerLink="/noticias" class="btn btn-nf btn-hero1">Ver noticias</a>
+          <a routerLink="/contacto" class="btn btn-nf btn-nf-borde-azul btn-hero2">Contáctanos</a>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="carrusel-container">
+          <div class="carrusel-inner">
+            <div
+              *ngFor="let slide of slides; let i = index"
+              class="carrusel-slide"
+              [class.activo]="i === slideActual"
+            >
+              <img [src]="slide.imagen" [alt]="slide.titulo">
+              <div class="slide-caption">
+                <h5>{{ slide.titulo }}</h5>
+                <p>{{ slide.descripcion }}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="carrusel-indicadores">
+            <button
+              *ngFor="let slide of slides; let i = index"
+              type="button"
+              [class.activo]="i === slideActual"
+              (click)="irASlide(i)"
+              [attr.aria-label]="'Slide ' + (i + 1)"
+            ></button>
+          </div>
+
+          <button class="control-btn prev" type="button" (click)="anteriorSlide()" aria-label="Anterior">
+            ‹
+          </button>
+          <button class="control-btn next" type="button" (click)="siguienteSlide()" aria-label="Siguiente">
+            ›
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="seccion-noticias container py-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h2 class="titulo-seccion">Noticias destacadas</h2>
+      <p class="subtitulo-seccion">Los hechos más leídos de la semana</p>
+    </div>
+    <a routerLink="/noticias" class="btn btn-nf btn-nf-borde">Ver todas →</a>
+  </div>
+
+  <div class="row g-4">
+    <div *ngFor="let item of noticiasRecientes" class="col-12 col-md-6 col-lg-4">
+      <article class="tarjeta-noticia">
+        <div class="img-wrapper">
+          <img [src]="item.imagen" [alt]="item.titulo">
+          <span class="categoria-badge">{{ item.categoria }}</span>
+        </div>
+        <div class="contenido-tarjeta">
+          <span class="fecha-noticia">{{ item.fecha }}</span>
+          <h3 class="titulo-card">
+            <a [routerLink]="['/noticia', item.id]">{{ item.titulo }}</a>
+          </h3>
+          <p class="resumen-card">{{ item.resumen }}</p>
+          <div class="card-footer-custom">
+            <a [routerLink]="['/noticia', item.id]" class="leer-mas">Leer noticia completa →</a>
+            <button
+              type="button"
+              class="btn-favorito"
+              [class.activo]="esFavorito(item.id)"
+              (click)="toggleFavorito(item.id)"
+              [attr.aria-label]="esFavorito(item.id) ? 'Quitar de favoritos' : 'Guardar en favoritos'"
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>

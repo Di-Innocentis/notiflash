@@ -1,0 +1,243 @@
+<section class="container py-4">
+  <div class="encabezado-gestionar mb-4">
+    <h1>Administración de Noticias</h1>
+    <p>Agrega, edita o elimina noticias del portal NotiFlash con persistencia en tiempo real.</p>
+  </div>
+
+  <div *ngIf="mensajeExito" class="alerta-exito mb-4">
+    {{ mensajeExito }}
+  </div>
+
+  <div class="row g-4 mb-5">
+    <div class="col-12 col-lg-7">
+      <div class="card-formulario">
+        <h2 class="subtitulo-form mb-3">
+          {{ modoEdicion ? 'Editar Noticia #' + idEnEdicion : 'Crear Nueva Noticia' }}
+        </h2>
+
+        <form (ngSubmit)="guardar()" #noticiaForm="ngForm">
+          <div class="mb-3">
+            <label class="form-label" for="titulo">Título de la noticia *</label>
+            <input
+              type="text"
+              id="titulo"
+              name="titulo"
+              class="form-control-nf"
+              placeholder="Ej. Avances tecnológicos en educación..."
+              [(ngModel)]="formulario.titulo"
+              required
+              minlength="5"
+              #tituloInput="ngModel"
+              [class.error]="tituloInput.invalid && (tituloInput.dirty || tituloInput.touched)"
+            >
+            <span *ngIf="tituloInput.invalid && (tituloInput.dirty || tituloInput.touched)" class="msg-error">
+              El título es obligatorio y debe tener al menos 5 caracteres.
+            </span>
+          </div>
+
+          <div class="row g-3 mb-3">
+            <div class="col-12 col-md-6">
+              <label class="form-label" for="categoria">Categoría *</label>
+              <select
+                id="categoria"
+                name="categoria"
+                class="form-control-nf"
+                [(ngModel)]="formulario.categoria"
+                required
+              >
+                <option *ngFor="let cat of categorias" [value]="cat">{{ cat }}</option>
+              </select>
+            </div>
+
+            <div class="col-12 col-md-6">
+              <label class="form-label" for="autor">Autor *</label>
+              <input
+                type="text"
+                id="autor"
+                name="autor"
+                class="form-control-nf"
+                placeholder="Nombre del autor o redacción"
+                [(ngModel)]="formulario.autor"
+                required
+              >
+            </div>
+          </div>
+
+          <div class="row g-3 mb-3">
+            <div class="col-12 col-md-6">
+              <label class="form-label" for="imagen">Imagen (SVG)</label>
+              <select
+                id="imagen"
+                name="imagen"
+                class="form-control-nf"
+                [(ngModel)]="formulario.imagen"
+              >
+                <option *ngFor="let img of imagenesDisponibles" [value]="img">{{ img }}</option>
+              </select>
+            </div>
+
+            <div class="col-12 col-md-6">
+              <label class="form-label" for="fecha">Fecha</label>
+              <input
+                type="date"
+                id="fecha"
+                name="fecha"
+                class="form-control-nf"
+                [(ngModel)]="formulario.fecha"
+              >
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label" for="resumen">Resumen breve *</label>
+            <textarea
+              id="resumen"
+              name="resumen"
+              rows="2"
+              class="form-control-nf"
+              placeholder="Breve introducción para las tarjetas de noticias..."
+              [(ngModel)]="formulario.resumen"
+              required
+              minlength="10"
+              #resumenInput="ngModel"
+              [class.error]="resumenInput.invalid && (resumenInput.dirty || resumenInput.touched)"
+            ></textarea>
+            <span *ngIf="resumenInput.invalid && (resumenInput.dirty || resumenInput.touched)" class="msg-error">
+              El resumen debe tener al menos 10 caracteres.
+            </span>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label" for="contenido">Contenido completo *</label>
+            <textarea
+              id="contenido"
+              name="contenido"
+              rows="5"
+              class="form-control-nf"
+              placeholder="Escribe aquí los párrafos completos de la noticia..."
+              [(ngModel)]="formulario.contenido"
+              required
+              minlength="20"
+              #contenidoInput="ngModel"
+              [class.error]="contenidoInput.invalid && (contenidoInput.dirty || contenidoInput.touched)"
+            ></textarea>
+            <span *ngIf="contenidoInput.invalid && (contenidoInput.dirty || contenidoInput.touched)" class="msg-error">
+              El contenido debe tener al menos 20 caracteres.
+            </span>
+          </div>
+
+          <div class="form-check mb-4">
+            <input
+              type="checkbox"
+              id="destacada"
+              name="destacada"
+              class="form-check-input"
+              [(ngModel)]="formulario.destacada"
+            >
+            <label class="form-check-label" for="destacada">
+              Marcar como noticia destacada
+            </label>
+          </div>
+
+          <div class="d-flex gap-2">
+            <button
+              type="submit"
+              class="btn btn-nf"
+              [disabled]="!esValido()"
+            >
+              {{ modoEdicion ? 'Guardar Cambios' : 'Publicar Noticia' }}
+            </button>
+            <button
+              *ngIf="modoEdicion"
+              type="button"
+              class="btn btn-nf btn-nf-gris"
+              (click)="cancelarEdicion()"
+            >
+              Cancelar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="col-12 col-lg-5">
+      <div class="card-previa">
+        <h3 class="previa-titulo">Vista previa en tiempo real</h3>
+        <p class="previa-subtitulo">Observa cómo se verá la tarjeta gracias al data-binding bidireccional.</p>
+
+        <article class="tarjeta-noticia mt-3">
+          <div class="img-wrapper">
+            <img [src]="formulario.imagen" [alt]="formulario.titulo || 'Vista previa'">
+            <span class="categoria-badge">{{ formulario.categoria }}</span>
+          </div>
+          <div class="contenido-tarjeta">
+            <span class="fecha-noticia">{{ formulario.fecha }} · {{ formulario.autor }}</span>
+            <h4 class="titulo-card">
+              {{ formulario.titulo || 'Título de ejemplo de la noticia' }}
+            </h4>
+            <p class="resumen-card">
+              {{ formulario.resumen || 'Aquí aparecerá el resumen que redactes en el formulario.' }}
+            </p>
+            <div class="card-footer-custom">
+              <span class="leer-mas">Leer noticia completa →</span>
+              <span *ngIf="formulario.destacada" class="badge-destacada">Destacada ★</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+
+  <div class="tabla-seccion">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h3>Noticias Registradas ({{ noticias.length }})</h3>
+    </div>
+
+    <div class="table-responsive bg-white rounded shadow-sm border">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-light">
+          <tr>
+            <th style="width: 50px;">ID</th>
+            <th>Título</th>
+            <th>Categoría</th>
+            <th>Autor</th>
+            <th>Fecha</th>
+            <th class="text-center" style="width: 160px;">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let n of noticias">
+            <td><strong>#{{ n.id }}</strong></td>
+            <td>
+              <a [routerLink]="['/noticia', n.id]" class="titulo-link">{{ n.titulo }}</a>
+              <span *ngIf="n.destacada" class="badge-destacada-mini ms-1">★</span>
+            </td>
+            <td><span class="categoria-badge">{{ n.categoria }}</span></td>
+            <td>{{ n.autor }}</td>
+            <td><small class="text-muted">{{ n.fecha }}</small></td>
+            <td class="text-center">
+              <div class="btn-group btn-group-sm">
+                <button
+                  type="button"
+                  class="btn btn-outline-primary btn-sm"
+                  (click)="iniciarEdicion(n)"
+                  title="Editar"
+                >
+                  Editar
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-outline-danger btn-sm"
+                  (click)="eliminar(n.id)"
+                  title="Eliminar"
+                >
+                  Eliminar
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>

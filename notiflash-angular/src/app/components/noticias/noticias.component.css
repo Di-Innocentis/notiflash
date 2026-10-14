@@ -1,0 +1,206 @@
+.encabezado-catalogo h1 {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--azul-oscuro);
+  margin-bottom: 6px;
+}
+
+.encabezado-catalogo p {
+  font-size: 14px;
+  color: var(--gris);
+  margin: 0;
+}
+
+.panel-filtros {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid var(--borde);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.categorias-pills {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.btn-pill {
+  background: #f0f4f8;
+  border: 1px solid var(--borde);
+  color: var(--texto);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-pill:hover {
+  background: #e2eaf4;
+}
+
+.btn-pill.activo {
+  background: var(--azul);
+  border-color: var(--azul);
+  color: #fff;
+}
+
+.btn-pill-reset {
+  background: transparent;
+  border-color: #e08a84;
+  color: var(--rojo);
+}
+
+.btn-pill-reset:hover {
+  background: #fff5f5;
+}
+
+.resumen-resultados {
+  font-size: 13px;
+  color: var(--gris);
+}
+
+.tarjeta-noticia {
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--borde);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.tarjeta-noticia:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+.img-wrapper {
+  position: relative;
+  width: 100%;
+  height: 170px;
+  overflow: hidden;
+}
+
+.img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.img-wrapper .categoria-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+}
+
+.contenido-tarjeta {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.fecha-noticia {
+  font-size: 11px;
+  color: var(--gris);
+  margin-bottom: 6px;
+}
+
+.titulo-card {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.35;
+  margin-bottom: 8px;
+}
+
+.titulo-card a {
+  color: var(--azul-oscuro);
+}
+
+.titulo-card a:hover {
+  color: var(--azul);
+}
+
+.resumen-card {
+  font-size: 13px;
+  color: var(--gris);
+  line-height: 1.5;
+  margin-bottom: 16px;
+  flex: 1;
+}
+
+.card-footer-custom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid #f0f4f8;
+  padding-top: 12px;
+}
+
+.leer-mas {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--azul);
+}
+
+.leer-mas:hover {
+  text-decoration: underline;
+}
+
+.btn-favorito {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-favorito svg {
+  width: 20px;
+  height: 20px;
+  stroke: var(--gris);
+  transition: all 0.2s;
+}
+
+.btn-favorito:hover svg {
+  stroke: var(--azul);
+}
+
+.btn-favorito.activo svg {
+  stroke: var(--azul);
+  fill: var(--azul);
+}
+
+.mensaje-vacio {
+  background: #fff;
+  border-radius: 10px;
+  border: 1px dashed var(--borde);
+  padding: 40px 20px;
+}
+
+.icono-vacio {
+  width: 50px;
+  height: 50px;
+  stroke: var(--gris);
+  margin-bottom: 12px;
+}
+
+.mensaje-vacio h3 {
+  font-size: 18px;
+  color: var(--azul-oscuro);
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.mensaje-vacio p {
+  font-size: 13px;
+  color: var(--gris);
+  margin-bottom: 16px;
+}
