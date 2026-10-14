@@ -1,4 +1,5 @@
 {
+  "outputDirectory": "dist/notiflash-angular",
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ]
